@@ -1,0 +1,219 @@
+# [No.1] construct_wrapper.4
+# In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(376)/    def construct(self, *inputs):/
+funcgraph fg_4(
+        %para1 : Tensor(F32)[32, 4]    # inputs0
+        , %para2 : Tensor(F32)[32]    # inputs1
+        , %para3 : Ref[Tensor(I32)][]    # step
+        , %para4 : Ref[Tensor(F32)][1, 4]    # weight
+        , %para5 : Ref[Tensor(F32)][1]    # bias
+        , %para6 : Ref[Tensor(F32)][1, 4]    # accum.weight
+        , %para7 : Ref[Tensor(F32)][1]    # accum.bias
+        , %para8 : Ref[Tensor(F32)][1, 4]    # stat.weight
+        , %para9 : Ref[Tensor(F32)][1]    # stat.bias
+        , %para10 : Ref[Tensor(F32)][]    # momentum
+        , %para11 : Ref[Tensor(F32)][]    # learning_rate
+    ) {
+    %1 : Tuple[Tensor(F32)*2] = Primitive::MakeTuple{prim_type=1}(%para1, %para2)    #(Tensor(F32)[32, 4], Tensor(F32)[32]) #scope: Default
+      # #[CNode]16
+
+#------------------------> 0
+    %2 = UnpackCall::unpack_call(FuncGraph::fg_17, %1)    #(Func, Tuple[Tensor(F32)*2])    # fg_17=construct.17 #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(377)/        if self.freeze:/#[CNode]18
+    Primitive::Return{prim_type=1}(%2)    #(Undefined) #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(377)/        if self.freeze:/#[CNode]19
+}
+# order:
+#   1: construct_wrapper.4:[CNode]18{[0]: ValueNode<UnpackCall> unpack_call, [1]: ValueNode<FuncGraph> construct.17, [2]: [CNode]16}
+#   2: construct_wrapper.4:[CNode]19{[0]: ValueNode<Primitive> Return, [1]: [CNode]18}
+
+
+# [No.2] UnpackCall.5
+# 
+funcgraph fg_5(
+        %para12 : Func    # 6
+        , %para13 : Tuple[Tensor(F32)*2]    # 7
+    ) {
+    %1 : Tensor(F32)[32, 4] = Primitive::TupleGetItem{prim_type=1}(%para13, I64(0))    #(Tuple[Tensor(F32)*2], I64) #scope: Default
+      # #20
+    %2 : Tensor(F32)[32] = Primitive::TupleGetItem{prim_type=1}(%para13, I64(1))    #(Tuple[Tensor(F32)*2], I64) #scope: Default
+      # #21
+
+#------------------------> 1
+    %3 = %para12(%1, %2)    #(Tensor(F32)[32, 4], Tensor(F32)[32]) #scope: Default
+      # #22
+    Primitive::Return{prim_type=1}(%3)    #(Undefined) #scope: Default
+      # #23
+}
+# order:
+#   1: UnpackCall.5:22{[0]: 6, [1]: 20, [2]: 21}
+#   2: UnpackCall.5:23{[0]: ValueNode<Primitive> Return, [1]: 22}
+
+
+# [No.3] construct.8
+# In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(376)/    def construct(self, *inputs):/
+funcgraph fg_8[fg_4](
+        %para14 : Tensor(F32)[32, 4]    # inputs0
+        , %para15 : Tensor(F32)[32]    # inputs1
+    ) {
+    %1 : Bool = FuncGraph::fg_24(Bool(0))    #(Bool)    # fg_24=bool_.24 #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(377)/        if self.freeze:/#25
+    %2 : Func = Primitive::Switch{prim_type=1}(%1, FuncGraph::fg_26, FuncGraph::fg_9)    #(Bool, Func, Func)    # fg_26=✓construct.26, fg_9=✗construct.9 #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(377)/        if self.freeze:/#[CNode]27
+
+#------------------------> 2
+    %3 = %2() #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(377)/        if self.freeze:/#[CNode]28
+    Primitive::Return{prim_type=1}(%3)    #(Undefined) #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(377)/        if self.freeze:/#[CNode]29
+}
+# order:
+#   1: construct.8:25{[0]: ValueNode<FuncGraph> bool_.24, [1]: ValueNode<BoolImm> false}
+#   2: construct.8:[CNode]27{[0]: ValueNode<Primitive> Switch, [1]: 25, [2]: ValueNode<FuncGraph> ✓construct.26, [3]: ValueNode<FuncGraph> ✗construct.9}
+#   3: construct.8:[CNode]28{[0]: [CNode]27}
+#   4: construct.8:[CNode]29{[0]: ValueNode<Primitive> Return, [1]: [CNode]28}
+
+
+# [No.4] ✗construct.9
+# In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(377)/        if self.freeze:/
+funcgraph fg_9[fg_8](
+) {
+    %1 : Bool = FuncGraph::fg_24(Bool(0))    #(Bool)    # fg_24=bool_.24 #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(394)/            if self.use_grad_accumulation:/#30
+    %2 : Func = Primitive::Switch{prim_type=1}(%1, FuncGraph::fg_31, FuncGraph::fg_10)    #(Bool, Func, Func)    # fg_31=✓✗construct.31, fg_10=✗✗construct.10 #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(394)/            if self.use_grad_accumulation:/#[CNode]32
+
+#------------------------> 3
+    %3 = %2() #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(394)/            if self.use_grad_accumulation:/#[CNode]33
+    Primitive::Return{prim_type=1}(%3)    #(Undefined) #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(394)/            if self.use_grad_accumulation:/#[CNode]34
+}
+# order:
+#   1: ✗construct.9:loss{[0]: ValueNode<UnpackCall> unpack_call, [1]: ValueNode<FuncGraph> construct.14, [2]: [CNode]35}
+#   2: ✗construct.9:[CNode]36{[0]: ValueNode<Primitive> getattr, [1]: loss, [2]: ValueNode<StringImm> dtype}
+#   3: ✗construct.9:[CNode]37{[0]: ValueNode<Primitive> getattr, [1]: loss, [2]: ValueNode<StringImm> shape}
+#   4: ✗construct.9:sens{[0]: ValueNode<DoSignaturePrimitive> S-Prim-Fill, [1]: [CNode]36, [2]: [CNode]37, [3]: ValueNode<FP32Imm> 1.000000}
+#   5: ✗construct.9:[CNode]38{[0]: ValueNode<DoSignaturePrimitive> S-Prim-MakeTuple, [1]: sens}
+#   6: ✗construct.9:grads{[0]: ValueNode<UnpackGraphPrimitive> UnpackGraph, [1]: ValueNode<FuncGraph> construct.14, [2]: [CNode]35, [3]: [CNode]38}
+#   7: ✗construct.9:grads{[0]: ValueNode<DoSignaturePrimitive> S-Prim-grad, [1]: grads, [2]: [CNode]39}
+#   8: ✗construct.9:grads{[0]: ValueNode<UnpackCall> unpack_call, [1]: grads, [2]: [CNode]35, [3]: [CNode]38}
+#   9: ✗construct.9:grads{[0]: ValueNode<DoSignaturePrimitive> S-Prim-identity, [1]: grads}
+#  10: ✗construct.9:30{[0]: ValueNode<FuncGraph> bool_.24, [1]: ValueNode<BoolImm> false}
+#  11: ✗construct.9:[CNode]32{[0]: ValueNode<Primitive> Switch, [1]: 30, [2]: ValueNode<FuncGraph> ✓✗construct.31, [3]: ValueNode<FuncGraph> ✗✗construct.10}
+#  12: ✗construct.9:[CNode]33{[0]: [CNode]32}
+#  13: ✗construct.9:[CNode]34{[0]: ValueNode<Primitive> Return, [1]: [CNode]33}
+
+
+# [No.5] ✗✗construct.10
+# In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(394)/            if self.use_grad_accumulation:/
+funcgraph fg_10[fg_9](
+) {
+    %1 : $(✗✗construct.10):Tuple[Tensor(F32)*2] = Primitive::MakeTuple{prim_type=1}(%para14, %para15)    #(Tensor(F32)[32, 4], Tensor(F32)[32]) #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(384)/            loss = self.freeze_nets[step](*inputs)/#[CNode]35
+
+#------------------------> 4
+    %2 = $(✗✗construct.10):UnpackCall::unpack_call(FuncGraph::fg_14, %1)    #(Func, Tuple[Tensor(F32)*2])    # fg_14=construct.14 #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(390)/            loss = self.network(*inputs)/#loss
+    %3 = $(✗✗construct.10):Primitive::getattr{prim_type=1}(%2, "dtype")    #(Undefined, Undefined) #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(391)/            sens = F.fill(loss.dtype, loss.shape, self.sens)/#[CNode]36
+    %4 = $(✗✗construct.10):Primitive::getattr{prim_type=1}(%2, "shape")    #(Undefined, Undefined) #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(391)/            sens = F.fill(loss.dtype, loss.shape, self.sens)/#[CNode]37
+    %5 = $(✗✗construct.10):DoSignaturePrimitive::S-Prim-Fill{prim_type=1}(%3, %4, F32(1))    #(Undefined, Undefined, Undefined) #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(391)/            sens = F.fill(loss.dtype, loss.shape, self.sens)/#sens
+    %6 = $(✗✗construct.10):DoSignaturePrimitive::S-Prim-MakeTuple{prim_type=1}(%5)    #(Undefined) #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(392)/            grads = self.grad(self.network, self.weights)(*inputs, sens)/#[CNode]38
+    %7 = $(✗✗construct.10):UnpackGraphPrimitive::UnpackGraph{prim_type=1}(FuncGraph::fg_14, %1, %6)    #(Undefined, Tuple[Tensor(F32)*2], Undefined)    # fg_14=construct.14 #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(392)/            grads = self.grad(self.network, self.weights)(*inputs, sens)/#grads
+    %8 = $(✗✗construct.10):Primitive::MakeTuple{prim_type=1}(%para4, %para5)    #(Ref[Tensor(F32)][1, 4], Ref[Tensor(F32)][1]) #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(392)/            grads = self.grad(self.network, self.weights)(*inputs, sens)/#[CNode]39
+    %9 = $(✗✗construct.10):DoSignaturePrimitive::S-Prim-grad{prim_type=1}(%7, %8)    #(Undefined, Undefined) #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(392)/            grads = self.grad(self.network, self.weights)(*inputs, sens)/#grads
+    %10 = $(✗✗construct.10):UnpackCall::unpack_call(%9, %1, %6)    #(Undefined, Tuple[Tensor(F32)*2], Undefined) #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(392)/            grads = self.grad(self.network, self.weights)(*inputs, sens)/#grads
+    %11 = $(✗✗construct.10):DoSignaturePrimitive::S-Prim-identity{prim_type=1}[side_effect_propagate=I64(1)](%10)    #(Undefined) #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(393)/            grads = self.grad_reducer(grads)/#grads
+    %12 = FuncGraph::fg_40(%11)    #(Undefined)    # fg_40=construct.40 #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(397)/                loss = F.depend(loss, self.optimizer(grads))/#[CNode]41
+    %13 = DoSignaturePrimitive::S-Prim-Depend{prim_type=1}[side_effect_propagate=I64(1)](%2, %12)    #(Undefined, Undefined) #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(397)/                loss = F.depend(loss, self.optimizer(grads))/#loss
+    %14 = FuncGraph::fg_42(%13)    #(Undefined)    # fg_42=↓✗construct.42 #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(394)/            if self.use_grad_accumulation:/#[CNode]43
+    Primitive::Return{prim_type=1}(%14)    #(Undefined) #scope: Default
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(394)/            if self.use_grad_accumulation:/#[CNode]44
+}
+# order:
+#   1: ✗✗construct.10:[CNode]41{[0]: ValueNode<FuncGraph> construct.40, [1]: grads}
+#   2: ✗✗construct.10:loss{[0]: ValueNode<DoSignaturePrimitive> S-Prim-Depend, [1]: loss, [2]: [CNode]41}
+#   3: ✗✗construct.10:[CNode]43{[0]: ValueNode<FuncGraph> ↓✗construct.42, [1]: loss}
+#   4: ✗✗construct.10:[CNode]44{[0]: ValueNode<Primitive> Return, [1]: [CNode]43}
+
+
+# [No.6] UnpackCall.11
+# 
+funcgraph fg_11(
+        %para16 : Func    # 12
+        , %para17 : Tuple[Tensor(F32)*2]    # 13
+    ) {
+    %1 : Tensor(F32)[32, 4] = Primitive::TupleGetItem{prim_type=1}(%para17, I64(0))    #(Tuple[Tensor(F32)*2], I64) #scope: Default
+      # #45
+    %2 : Tensor(F32)[32] = Primitive::TupleGetItem{prim_type=1}(%para17, I64(1))    #(Tuple[Tensor(F32)*2], I64) #scope: Default
+      # #46
+
+#------------------------> 5
+    %3 = %para16(%1, %2)    #(Tensor(F32)[32, 4], Tensor(F32)[32]) #scope: Default
+      # #47
+    Primitive::Return{prim_type=1}(%3)    #(Undefined) #scope: Default
+      # #48
+}
+# order:
+#   1: UnpackCall.11:47{[0]: 12, [1]: 45, [2]: 46}
+#   2: UnpackCall.11:48{[0]: ValueNode<Primitive> Return, [1]: 47}
+
+
+# [No.7] construct.14
+# In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(111)/    def construct(self, data, label):/
+funcgraph fg_14[fg_4](
+        %para18 : Tensor(F32)[32, 4]    # data
+        , %para19 : Tensor(F32)[32]    # label
+    ) {
+    %1 : Tensor(F32)[32, 1] = FuncGraph::fg_49(%para18)    #(Tensor(F32)[32, 4])    # fg_49=construct.49 #scope: Default/network-WithLossCell
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(112)/        out = self._backbone(data)/#out
+
+#------------------------> 6
+    %2 = FuncGraph::fg_15(%1, %para19)    #(Tensor(F32)[32, 1], Tensor(F32)[32])    # fg_15=construct.15 #scope: Default/network-WithLossCell
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(113)/        return self._loss_fn(out, label)/#[CNode]50
+    Primitive::Return{prim_type=1}(%2)    #(Undefined) #scope: Default/network-WithLossCell
+      # In file C:\Users\82135\AppData\Local\Programs\Python\Python37\lib\site-packages\mindspore\nn\wrap\cell_wrapper.py(113)/        return self._loss_fn(out, label)/#[CNode]51
+}
+# order:
+#   1: construct.14:out{[0]: ValueNode<FuncGraph> construct.49, [1]: data}
+#   2: construct.14:[CNode]50{[0]: ValueNode<FuncGraph> construct.15, [1]: out, [2]: label}
+#   3: construct.14:[CNode]51{[0]: ValueNode<Primitive> Return, [1]: [CNode]50}
+
+
+# [No.8] construct.15
+# In file D:\华师\Python\综合实验\Iris.py(65)/
+funcgraph fg_15(
+        %para20 : Tensor(F32)[32, 1]    # x
+        , %para21 : Tensor(F32)[32]    # y
+    ) {
+
+#------------------------> 7
+    %1 = DoSignaturePrimitive::S-Prim-SigmoidCrossEntropyWithLogits{prim_type=1}[input_names=["predict", "target"], output_names=["loss"]](%para20, %para21)    #(Tensor(F32)[32, 1], Tensor(F32)[32]) #scope: Default/network-WithLossCell/_loss_fn-Loss
+      # In file D:\华师\Python\综合实验\Iris.py(66)/#loss
+    %2 = DoSignaturePrimitive::S-Prim-negative{prim_type=1}(I64(1))    #(Undefined) #scope: Default/network-WithLossCell/_loss_fn-Loss
+      # In file D:\华师\Python\综合实验\Iris.py(67)/#[CNode]52
+    %3 = DoSignaturePrimitive::S-Prim-ReduceMean{prim_type=1}[input_names=["input_x", "axis"], output_names=["y"], keep_dims=Bool(0)](%1, %2)    #(Undefined, Undefined) #scope: Default/network-WithLossCell/_loss_fn-Loss
+      # In file D:\华师\Python\综合实验\Iris.py(67)/#[CNode]53
+    Primitive::Return{prim_type=1}(%3)    #(Undefined) #scope: Default/network-WithLossCell/_loss_fn-Loss
+      # In file D:\华师\Python\综合实验\Iris.py(67)/#[CNode]54
+}
+# order:
+#   1: construct.15:loss{[0]: ValueNode<DoSignaturePrimitive> S-Prim-SigmoidCrossEntropyWithLogits, [1]: x, [2]: y}
+#   2: construct.15:[CNode]52{[0]: ValueNode<DoSignaturePrimitive> S-Prim-negative, [1]: ValueNode<Int64Imm> 1}
+#   3: construct.15:[CNode]53{[0]: ValueNode<DoSignaturePrimitive> S-Prim-ReduceMean, [1]: loss, [2]: [CNode]52}
+#   4: construct.15:[CNode]54{[0]: ValueNode<Primitive> Return, [1]: [CNode]53}
+
+
+#===============================================================================
+# num of function graphs in stack: 9
